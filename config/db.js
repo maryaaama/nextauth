@@ -1,4 +1,4 @@
-const {default:mongoose} = require ("mongoose");
+/*const {default:mongoose} = require ("mongoose");
 const connectToDB = async()=>{
     try{
         if(mongoose.connections[0].readyState){
@@ -12,4 +12,23 @@ const connectToDB = async()=>{
         }
     
 };
+export default connectToDB;*/
+import mongoose from "mongoose";
+
+const connectToDB = async () => {
+  try {
+    if (mongoose.connections[0].readyState) {
+      return true; // اتصال قبلاً برقرار شده
+    }
+
+    await mongoose.connect(process.env.MONGODB_URI, {
+      dbName: "signup", // نام دیتابیس شما
+    });
+
+    console.log("✅ Connected to MongoDB Atlas successfully");
+  } catch (err) {
+    console.error("❌ DB connection error:", err);
+  }
+};
+
 export default connectToDB;

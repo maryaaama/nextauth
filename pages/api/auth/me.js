@@ -22,12 +22,25 @@ const handler = async (req, res) => {
       return res.status(401).json({ message: "you are not login" });
     }
 
+    // پیدا کردن کاربر در دیتابیس فقط با فیلدهای مورد نیاز
     const user = await UserModel.findOne(
       { email: isValidToken.email },
-      "firstName lastName role"
+      "_id firstName lastName role"
     );
 
-    return res.status(200).json({ data: user });
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+
+    // ✅ اینجا id رو هم به داده‌ی خروجی اضافه می‌کنیم
+    const userData = {
+      id: user._id.toString(),
+      firstName: user.firstName,
+      lastName: user.lastName,
+      role: user.role,
+    };
+
+    return res.status(200).json({ data: userData });
 
   } catch (error) {
     console.error("verify token =>", error);
