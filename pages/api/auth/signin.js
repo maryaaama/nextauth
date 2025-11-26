@@ -18,7 +18,7 @@ const handler = async (req, res) => {
     }
 
     const user = await usersModel.findOne({
-      $or: [{ username: identifier }, { email: identifier }],
+      $or: [{ userName: identifier }, { email: identifier }],
     });
 
     if (!user) {
