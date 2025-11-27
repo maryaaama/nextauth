@@ -4,6 +4,8 @@ import { generateToken, hashPassword, verifyPassword } from "@/utils/auth";
 import { serialize } from "cookie";
 
 const handler = async (req, res) => {
+  console.log("SIGNIN API CALLED");
+
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
